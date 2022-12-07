@@ -171,7 +171,7 @@ region of GD-1,
 > * To add text, see
 > [`plt.text`](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.text.html).
 > 
-> * To add an annotation with text and an arrow, see [plt.annotate](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.annotate.html).
+> * To add an annotation with text and an arrow, see [`plt.annotate`](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.annotate.html).
 > 
 > Here is some [additional information about text and
 > arrows](https://matplotlib.org/stable/tutorials/text/annotations.html).
@@ -184,7 +184,7 @@ region of GD-1,
 > > plt.axvline(-55, ls='--', color='gray', 
 > >             alpha=0.4, dashes=(6,4), lw=2)
 > > plt.text(-60, 5.5, 'Previously\nundetected', 
-> >          fontsize='small', ha='right', va='top');
+> >          fontsize='small', ha='right', va='top')
 > > 
 > > arrowprops=dict(color='gray', shrink=0.05, width=1.5, 
 > >                 headwidth=6, headlength=8, alpha=0.4)
@@ -195,7 +195,7 @@ region of GD-1,
 > > 
 > > plt.annotate('Gap', xy=(-22, -1), xytext=(-25, -5.5),
 > >              arrowprops=arrowprops,
-> >              fontsize='small')
+> >              fontsize='small');
 > > ~~~
 > > {: .language-python}
 > {: .solution}
@@ -220,6 +220,14 @@ style sheet.
 As a simple example, notice that Matplotlib puts ticks on the outside
 of the figures by default, and only on the left and bottom sides of
 the axes.
+
+> ## Note on Accessibility 
+> Customization offers a high degree of personalization for creating scientific visualizations. 
+> It is important to also create accessible visualizations for a broad audience 
+> that may include low-vision or color-blind individuals. The AAS Journals provide a Graphics Guide 
+> for authors with tips and external links that can help you produce more accessible graphics: 
+> https://journals.aas.org/graphics-guide/
+{: .callout} 
 
 So far, everything we have wanted to do we could call directly from 
 the pyplot module with `plt.`. As you do more and more customization
@@ -300,7 +308,30 @@ plt.rcParams['font.size'] = 14
 > Plot the previous figure again, and see what font
 > sizes have changed.  Look up any other element of `rcParams`, change
 > its value, and check the effect on the figure.
+>
+> > ## Solution
+> >
+> > ~~~
+> > fig = plt.figure(figsize=(10,2.5))
+> > ax = fig.add_subplot(1,1,1)
+> > ax.tick_params(top=True, right=True)
+> > 
+> > # Looking up the 'axes.edgecolor' rcParams value
+> > print(plt.rcParams['axes.edgecolor'])
+> >
+> > plt.rcParams['axis.edgecolor'] = 'red'
+> > 
+> > fig = plt.figure(figsize=(10,2.5))
+> > ax = fig.add_subplot(1,1,1)
+> > ax.tick_params(top=True, right=True)
+> > 
+> > # changing the rcParams value back to its original value
+> > plt.rcParams['axes.edgecolor'] = 'black'
+> > ~~~
+> > {: .language-python}
+> {: .solution}
 {: .challenge}
+
 
 When you import Matplotlib, `plt.rcParams` is populated from a matplotlibrc file. 
 If you want to permanently change a setting for every plot you make, you can set that in your matplotlibrc file. 
@@ -375,11 +406,24 @@ or call `use` again.
 
 > ## Exercise (5 minutes)
 > Choose one of the styles on the list and select it by
-> calling `use`.  Then go back and plot one of the figures above and see
+> calling `use`.  Then go back and plot one of the previous figures to see
 > what changes in the figure's appearance.
+> > 
+> > ## Solution
+> >
+> > ~~~
+> > plt.style.use('seaborn-bright')
+> > 
+> > plot_cmd(candidate_df)
+> > plt.plot(left_color, g, label='left color')
+> > plt.plot(right_color, g, label='right color')
+> > 
+> > plt.legend();
+> > ~~~
+> > {: .language-python}
+> {: .solution}
 {: .challenge}
-
-If you can't find a style sheet that is exactly what you want, you can
+If you cannot find a style sheet that is exactly what you want, you can
 make your own.  This repository includes a style sheet called
 `az-paper-twocol.mplstyle`, with customizations chosen by Azalee
 Bostroem for publication in astronomy journals.
@@ -388,6 +432,13 @@ You can use it like this:
 
 ~~~
 plt.style.use('./az-paper-twocol.mplstyle')
+
+plot_cmd(candidate_df)
+
+plt.plot(left_color, g, label='left color')
+plt.plot(right_color, g, label='right color')
+
+plt.legend();
 ~~~
 {: .language-python}
 
@@ -428,6 +479,8 @@ column 0, which is the upper-left panel.
 Here is how we use this function to draw the four panels.
 
 ~~~
+plt.style.use('default')
+
 fig = plt.figure()
 shape = (2, 2)
 ax1 = plt.subplot2grid(shape, (0, 0))
@@ -554,8 +607,8 @@ In episode 4 we defined a rectangle in proper motion space around the stars in G
 We stored the x-values of the vertices of this rectangle in `pm1_rect` and 
 the y-values as `pm2_rect`.
 
-To plot this rectangle, we will use the Matplotlib `Polygon` object which we used in episode 6 to check which
-points were inside the convex hull. However, this time we will be plotting the `Polygon`.
+To plot this rectangle, we will use the Matplotlib `Polygon` object which we used in episode 7 to check which
+points were inside the polygon. However, this time we will be plotting the `Polygon`.
 
 To create a `Polygon`, we have to put the coordinates of the rectangle in an array with
 `x` values in the first column and `y` values in the second column. 
@@ -631,7 +684,7 @@ ax.add_patch(poly)
 > Add a few lines to be run after the `plot_cmd` function to show the polygon we selected as a
 > shaded area.
 > 
-> Hint: pass `loop_df` as an argument to `Polygon` as we did in episode 6 and then plot it using `add_patch`.
+> Hint: pass `loop_df` as an argument to `Polygon` as we did in episode 7 and then plot it using `add_patch`.
 >
 > > ## Solution
 > > 
